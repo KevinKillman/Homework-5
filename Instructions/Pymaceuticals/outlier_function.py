@@ -1,12 +1,14 @@
-import pandas as pd
-def outlier(describe_series, dataframe):
+
+def outlier(series):
+    import pandas as pd
+    describe_series = series.describe()
     q1 = describe_series['25%']
     q3 = describe_series['75%']
     iqr = q3-q1
     lower_bound = q1 - (1.5 * iqr)
     upper_bound = q3 + (1.5 * iqr)
     outliers = []
-    for (value) in dataframe:
+    for (value) in series:
         value = int(value)
         if value>upper_bound or value<lower_bound:
             outliers.append(value)
