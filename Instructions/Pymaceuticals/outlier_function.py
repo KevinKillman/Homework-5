@@ -3,8 +3,9 @@ def outlier(series):
     import pandas as pd
     index_counter = 0
     describe_series = series.describe()
-    q1 = describe_series['25%']
-    q3 = describe_series['75%']
+    quartiles = series.quantile([.25,.5,.75])
+    q1 = quartiles[0.25]
+    q3 = quartiles[0.75]
     iqr = q3-q1
     lower_bound = q1 - (1.5 * iqr)
     upper_bound = q3 + (1.5 * iqr)
@@ -18,6 +19,6 @@ def outlier(series):
             'Mode':series.mode(),
             'Lower Bound': lower_bound,
             'Upper Bound': upper_bound,
-            'Median': describe_series['50%'],
+            'Median': quartiles[0.5],
             'IQR': iqr,
             'Potential Outliers': outliers}
